@@ -25,7 +25,7 @@ public class GoogleSearchTest {
 
     @BeforeClass
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", System.getenv("DRIVER"));
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         driver = new ChromeDriver();
         homePage = new GoogleHomePage(driver);
         resultsPage = new GoogleSearchResultsPage(driver);
@@ -35,7 +35,6 @@ public class GoogleSearchTest {
     @Test(dataProvider = "testData")
     public void testGoogleSearch(String username, String password, String searchText) {
         test = extent.createTest("Google Search Test - " + searchText);
-
         driver.get("https://www.google.com");
         //homePage.login(username, password); // Implement login if required.
         homePage.search(searchText);
@@ -49,7 +48,7 @@ public class GoogleSearchTest {
 
     @DataProvider(name = "testData")
     public Object[][] testData() {
-        return ExcelUtils.readTestData("/WebappAutoDemo/src/test/java/resources/testData.xlsx", "Sheet1");
+        return ExcelUtils.readTestData("src/test/resources/testData.xlsx", "Sheet1");
     }
 
     @AfterClass

@@ -12,7 +12,7 @@ public class ExtentReportManager {
         sparkReporter.config().setTheme(Theme.STANDARD);
         sparkReporter.config().setDocumentTitle("Test Automation Report");
         sparkReporter.config().setEncoding("utf-8");
-        sparkReporter.config().setReportName("Test Results");
+        sparkReporter.config().setReportName("Automation Test Results");
 
         extent = new ExtentReports();
         extent.attachReporter(sparkReporter);

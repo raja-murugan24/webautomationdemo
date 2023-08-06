@@ -1,18 +1,3 @@
-/*************************************************************************************************************
- * 
- * 	program name:	ExcelUtils.java
- * 	author		:	Rolando Tan (rtan01)
- * 	date		:	10/24/2016
- * 
- * 	description	:	This class retrieves test case data from a datasheet.
- * 				:	The data retrieved from the datasheet is held in a public collection (hashmap)
- * History		:	
- * 					2/23/2017 - Aditya Inapurapu: 
- * 								Added to branch and edited to confirm to coding and documentation standards 
- * 								Moved ExcelUtils methods to this class 
- * 								Renamed this class TestDataSheetReader to ExcelUtils
- ***************************************************************************************************************/
-
 package com.utils;
 
 import java.io.FileInputStream;
@@ -24,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -39,6 +25,7 @@ public class FmExcelUtils
 	private static XSSFWorkbook excelWBook;
 	private static XSSFCell cell;
 	public HashMap<String, String> testData = new HashMap<String, String>();	
+	public FmDBUtils DBUtils = new FmDBUtils() ;
 
 	/**
 	 * Get WPR data based on a Facets like query
@@ -52,14 +39,14 @@ public class FmExcelUtils
 		String wprQueryWithParameterValues;
 
 		if ( dataMap.get("FACETS_LIKE_INNER_QUERY") != null && !"".equals(dataMap.get("FACETS_LIKE_INNER_QUERY")) ) {
-			dataColumnArray = new DBUtils().getFacetsColumnArray(dataMap.get("FACETS_LIKE_INNER_QUERY").toString());
-			dataTableArray = new DBUtils().getFacetsTableArray(dataMap.get("FACETS_LIKE_INNER_QUERY").toString());
+			dataColumnArray = new FmDBUtils().getFacetsColumnArray(dataMap.get("FACETS_LIKE_INNER_QUERY").toString());
+			dataTableArray = new FmDBUtils().getFacetsTableArray(dataMap.get("FACETS_LIKE_INNER_QUERY").toString());
 			debugQueryPrint(dataMap.get("FACETS_LIKE_INNER_QUERY"), methodName);
 		}
 		if ( dataMap.get("WPR_LIKE_QUERY") != null && !"".equals(dataMap.get("WPR_LIKE_QUERY")) ) {
 			wprQueryWithParameterValues = inputParameterValuesLikeQuery(dataMap.get("WPR_LIKE_QUERY").toString(), dataColumnArray, dataTableArray);
-			dataColumnArray = new DBUtils().getWprColumnArray(wprQueryWithParameterValues);
-			dataTableArray = new DBUtils().getWprTableArray(wprQueryWithParameterValues);
+			dataColumnArray = new FmDBUtils().getWprColumnArray(wprQueryWithParameterValues);
+			dataTableArray = new FmDBUtils().getWprTableArray(wprQueryWithParameterValues);
 			debugQueryPrint(dataMap.get("WPR_LIKE_QUERY"), methodName);
 		}
 
@@ -119,15 +106,15 @@ public class FmExcelUtils
 		String wprQueryWithParameterValues;
 
 		if ( dataMap.get("FACETS_IN_INNER_QUERY") != null && !"".equals(dataMap.get("FACETS_IN_INNER_QUERY")) ) {
-			dataColumnArray = new DBUtils().getFacetsColumnArray(dataMap.get("FACETS_IN_INNER_QUERY").toString());
-			dataTableArray = new DBUtils().getFacetsTableArray(dataMap.get("FACETS_IN_INNER_QUERY").toString());
+			dataColumnArray = new FmDBUtils().getFacetsColumnArray(dataMap.get("FACETS_IN_INNER_QUERY").toString());
+			dataTableArray = new FmDBUtils().getFacetsTableArray(dataMap.get("FACETS_IN_INNER_QUERY").toString());
 			debugQueryPrint(dataMap.get("FACETS_IN_INNER_QUERY"), methodName);
 
 		}
 		if ( dataMap.get("WPR_IN_QUERY") != null && !"".equals(dataMap.get("WPR_IN_QUERY")) ) {
 			wprQueryWithParameterValues = inputParameterValuesInQuery(dataMap.get("WPR_IN_QUERY").toString(), dataColumnArray, dataTableArray);
-			dataColumnArray = new DBUtils().getWprColumnArray(wprQueryWithParameterValues);
-			dataTableArray = new DBUtils().getWprTableArray(wprQueryWithParameterValues);
+			dataColumnArray = new FmDBUtils().getWprColumnArray(wprQueryWithParameterValues);
+			dataTableArray = new FmDBUtils().getWprTableArray(wprQueryWithParameterValues);
 			debugQueryPrint(dataMap.get("WPR_LIKE_QUERY"), methodName);
 		}
 
@@ -208,27 +195,27 @@ public class FmExcelUtils
 						dataMap.put(columnArray[0][j].toString(), testDataArray[i][j].toString());
 					}
 					if ( dataMap.get("FACETS_SQL_INPUT") != null && !"".equals(dataMap.get("FACETS_SQL_INPUT")) ) {
-						dataColumnArray = new DBUtils().getFacetsColumnArray(dataMap.get("FACETS_SQL_INPUT").toString());
-						dataTableArray = new DBUtils().getFacetsTableArray(dataMap.get("FACETS_SQL_INPUT").toString());
+						dataColumnArray = new FmDBUtils().getFacetsColumnArray(dataMap.get("FACETS_SQL_INPUT").toString());
+						dataTableArray = new FmDBUtils().getFacetsTableArray(dataMap.get("FACETS_SQL_INPUT").toString());
 						getAllDBTestData(dataMap, dataColumnArray, dataTableArray, dataMap.get("TestMethod").toString());
 					}
 					if ( dataMap.get("FACETS_SQL_EXPECTED") != null && !"".equals(dataMap.get("FACETS_SQL_EXPECTED")) ) {
-						dataColumnArray = new DBUtils().getFacetsColumnArray(dataMap.get("FACETS_SQL_EXPECTED").toString());
-						dataTableArray = new DBUtils().getFacetsTableArray(dataMap.get("FACETS_SQL_EXPECTED").toString());
+						dataColumnArray = new FmDBUtils().getFacetsColumnArray(dataMap.get("FACETS_SQL_EXPECTED").toString());
+						dataTableArray = new FmDBUtils().getFacetsTableArray(dataMap.get("FACETS_SQL_EXPECTED").toString());
 						getAllDBTestData(dataMap, dataColumnArray, dataTableArray, dataMap.get("TestMethod").toString());
 					}
 					if ( dataMap.get("WPR_SQL_INPUT") != null && !"".equals(dataMap.get("WPR_SQL_INPUT")) ) {
-						dataColumnArray = new DBUtils().getWprColumnArray(dataMap.get("WPR_SQL_INPUT").toString());
-						dataTableArray = new DBUtils().getWprTableArray(dataMap.get("WPR_SQL_INPUT").toString());
+						dataColumnArray = new FmDBUtils().getWprColumnArray(dataMap.get("WPR_SQL_INPUT").toString());
+						dataTableArray = new FmDBUtils().getWprTableArray(dataMap.get("WPR_SQL_INPUT").toString());
 						getAllDBTestData(dataMap, dataColumnArray, dataTableArray, dataMap.get("TestMethod").toString());
 					}
 					if ( dataMap.get("WPR_SQL_EXPECTED") != null && !"".equals(dataMap.get("WPR_SQL_EXPECTED")) ) {
-						dataColumnArray = new DBUtils().getWprColumnArray(dataMap.get("WPR_SQL_EXPECTED").toString());
-						dataTableArray = new DBUtils().getWprTableArray(dataMap.get("WPR_SQL_EXPECTED").toString());
+						dataColumnArray = new FmDBUtils().getWprColumnArray(dataMap.get("WPR_SQL_EXPECTED").toString());
+						dataTableArray = new FmDBUtils().getWprTableArray(dataMap.get("WPR_SQL_EXPECTED").toString());
 						getAllDBTestData(dataMap, dataColumnArray, dataTableArray, dataMap.get("TestMethod").toString());
 					}
 					if (dataMap.get("UPDATE_QUERY")!= null && !"".equals(dataMap.get("UPDATE_QUERY").trim())) {
-						int result = new DBUtils().executeUpdate("wpr", dataMap.get("UPDATE_QUERY"));
+						int result = new FmDBUtils().executeUpdate("wpr", dataMap.get("UPDATE_QUERY"));
 						dataMap.put("UPDATE_QUERY_RESULT", String.valueOf(result));
 						getAllDBTestData(dataMap, dataColumnArray, dataTableArray, dataMap.get("TestMethod").toString());
 					}
@@ -310,14 +297,14 @@ public class FmExcelUtils
 		{
 			cell = excelWSheet.getRow(rowNum).getCell(colNum);
 			String cellData = null;
-			if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
+			if (cell.getCellType() == CellType.STRING) {
 				cellData = cell.getStringCellValue();
 			}
-			else if (cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) 
+			else if (cell.getCellType() == CellType.NUMERIC) 
 			{
 				cellData = String.valueOf(cell.getNumericCellValue());
 			}
-			else if (cell.getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BLANK)
+			else if (cell.getCellType() == CellType.BLANK)
 			{
 				cellData = "";
 			}

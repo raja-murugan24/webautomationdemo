@@ -23,7 +23,7 @@ import org.json.JSONArray;
  *
  * @author gholla01
  */
-public class DBUtils {
+public class FmDBUtils {
 
 	private Connection facetsConnection = null;
 	private Connection wprConnection = null;
@@ -623,19 +623,14 @@ public class DBUtils {
 	 *            Json array
 	 * @return Resultset as JSONArray
 	 */
-	public JSONArray getResultSetAsJson(String dbSource, String sqlQuery,
-			JSONArray jsonArrayFromResultSet) {
-		ResultSet resultSet = getResultSet(dbSource, sqlQuery);
-		try {
-			jsonArrayFromResultSet = JSONUtils.convertToJSONArray(resultSet);
-		} catch (Exception e) {
-			System.out
-					.println("Error: converting resultset to JSONArray failed: ");
-			e.printStackTrace();
-		}
-		tearDown();
-		return jsonArrayFromResultSet;
-	}
+	/*
+	 * public JSONArray getResultSetAsJson(String dbSource, String sqlQuery,
+	 * JSONArray jsonArrayFromResultSet) { ResultSet resultSet =
+	 * getResultSet(dbSource, sqlQuery); try { jsonArrayFromResultSet =
+	 * JSONUtils.convertToJSONArray(resultSet); } catch (Exception e) { System.out
+	 * .println("Error: converting resultset to JSONArray failed: ");
+	 * e.printStackTrace(); } tearDown(); return jsonArrayFromResultSet; }
+	 */
 
 	/**
 	 * Get resultset as a map of maps where key = primary key
