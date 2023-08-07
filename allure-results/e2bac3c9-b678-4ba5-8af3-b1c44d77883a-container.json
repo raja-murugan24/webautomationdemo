@@ -1,0 +1,1 @@
+{"uuid":"e2bac3c9-b678-4ba5-8af3-b1c44d77883a","name":"com.webauto.test.GoogleSearchTest","children":["4f2ad577-3dc3-496f-a04d-d9b3568e2cff"],"befores":[{"name":"setUp","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1691405595065,"stop":1691405597628}],"afters":[],"start":1691405595028,"stop":1691405606956}

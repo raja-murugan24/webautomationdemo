@@ -6,8 +6,9 @@
       <class name="com.webauto.test.GoogleSearchTest">
         <methods>
           <include name="setUp"/>
-          <include name="testGoogleSearch" invocation-numbers="0"/>
           <include name="tearDown"/>
+          <include name="tearDown"/>
+          <include name="testGoogleSearchNeg" invocation-numbers="0"/>
         </methods>
       </class> <!-- com.webauto.test.GoogleSearchTest -->
     </classes>

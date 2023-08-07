@@ -3,7 +3,8 @@
 <suite name="Suite">
   <test name="Test">
     <classes>
-      <class name="com.webauto.test.GoogleSearchTest"/>
+       <class name="com.webauto.test.GoogleSearchTest"/>
+       <class name="com.webauto.test.GoogleSearchTestAllure"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
