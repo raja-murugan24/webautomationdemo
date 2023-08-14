@@ -3,6 +3,8 @@ package com.webauto.test;
 import com.webauto.pages.GoogleHomePage;
 import com.webauto.pages.GoogleSearchResultsPage;
 import com.utils.ExcelUtils;
+import com.utils.FmDBUtils;
+import com.utils.FmExcelUtils;
 import com.webauto.reports.ExtentReportManager;
 
 import io.qameta.allure.Attachment;
@@ -12,6 +14,7 @@ import io.qameta.allure.SeverityLevel;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -40,9 +43,8 @@ public class GoogleSearchTest {
 	private GoogleSearchResultsPage resultsPage;
 	private ExtentReports extent;
 	private ExtentTest test;
-	private int totalTests = 0;
-	private int passedTests = 0;
-	private int failedTests = 0;
+
+	private Map<String, String> datamap;
 
 	@BeforeClass
 	public void setUp() {
@@ -56,6 +58,19 @@ public class GoogleSearchTest {
 
 	public WebDriver getDriver() {
 		return driver;
+
+	}
+
+	public GoogleSearchTest() {
+
+		FmExcelUtils Xslutil = new FmExcelUtils();
+		String xlspath = "src/test/resources/testData_FM.xlsx";
+		String searchvalue;
+
+		datamap = Xslutil.getTestMethodData(xlspath, "Search_1");
+		searchvalue = datamap.get("searchtext");
+		System.out.println("Value from search text: " + searchvalue);
+
 	}
 
 	@Test(priority = 1, dataProvider = "testData")
@@ -75,12 +90,9 @@ public class GoogleSearchTest {
 
 			test.log(Status.PASS, "Google search for '" + searchText + "' successful.");
 
-			totalTests++;
-			passedTests++;
 		} catch (AssertionError e) {
 			test.log(Status.FAIL, e.getMessage());
-			totalTests++;
-			failedTests++;
+
 		}
 
 	}
@@ -101,19 +113,19 @@ public class GoogleSearchTest {
 					+ "' does not contain the expected title '" + expectedTitle + "'.");
 
 			test.log(Status.PASS, "Google search for '" + searchText + "' successful.");
-			totalTests++;
-			passedTests++;
+
 		} catch (AssertionError e) {
 			test.log(Status.FAIL, e.getMessage());
-			totalTests++;
-			failedTests++;
+
 		}
 
 	}
 
 	@DataProvider(name = "testData")
 	public Object[][] testData() {
-		return ExcelUtils.readTestData("src/test/resources/testData.xlsx", "Sheet1");
+
+		String[][] testData = ExcelUtils.readTestData("src/test/resources/testData.xlsx", "Sheet1");
+		return testData;
 	}
 
 	@AfterClass
