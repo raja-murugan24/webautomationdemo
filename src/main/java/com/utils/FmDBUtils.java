@@ -26,6 +26,7 @@ import org.json.JSONArray;
 public class FmDBUtils {
 
 	private Connection facetsConnection = null;
+	private Connection postGresConnection = null;
 	private Connection wprConnection = null;
 	private Connection connection = null;
 	private Connection msSqlConnection = null;
@@ -43,6 +44,7 @@ public class FmDBUtils {
 		String oracleDB = System.getenv("ORACLE_DB");
 		String msSqlDB = System.getenv("EDIFECS_MSSQL_DB");
 		String msSqlNewDB = System.getenv("EDIFECS_NEW_MSSQL_DB");
+		String postgresDB = System.getenv("Postgress_DB");
 
 //		if (msSqlConnection == null && msSqlDB != null
 //				&& !"".equals(msSqlDB)) {
@@ -88,6 +90,27 @@ public class FmDBUtils {
 			} catch (SQLException ex) {
 				System.out
 						.println("ERROR: SQL Exception when connecting to the database: "
+								+ facetsDB);
+				ex.printStackTrace();
+			}
+		}
+		
+		if (postGresConnection == null && postgresDB != null
+				&& !"".equals(postgresDB)) {
+			String postGresUser = System.getenv("FACETS_USER");
+			String postGresPassword = System.getenv("FACETS_PASSWORD");
+			String postGresServer = System.getenv("FACETS_SERVER");
+			String postGresPort = System.getenv("FACETS_PORT");
+			String postGresConnectionString = "jdbc:postgresql:thin:"
+					+ postGresUser.trim() + "/" + postGresPassword.trim() + "@"
+					+ postGresServer.trim() + ":" + postGresPort.trim() + "/"
+					+ postgresDB.trim();
+			try {
+				postGresConnection = DriverManager
+						.getConnection(postGresConnectionString);
+			} catch (SQLException ex) {
+				System.out
+						.println("ERROR: Postgres Exception when connecting to the database: "
 								+ facetsDB);
 				ex.printStackTrace();
 			}

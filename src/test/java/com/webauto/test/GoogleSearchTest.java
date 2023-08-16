@@ -5,6 +5,7 @@ import com.webauto.pages.GoogleSearchResultsPage;
 import com.utils.ExcelUtils;
 import com.utils.FmDBUtils;
 import com.utils.FmExcelUtils;
+import com.utils.JiraDefectCreation;
 import com.webauto.reports.ExtentReportManager;
 
 import io.qameta.allure.Attachment;
@@ -45,6 +46,7 @@ public class GoogleSearchTest {
 	private ExtentTest test;
 
 	private Map<String, String> datamap;
+	public JiraDefectCreation jira = new JiraDefectCreation();
 
 	@BeforeClass
 	public void setUp() {
@@ -64,6 +66,7 @@ public class GoogleSearchTest {
 	public GoogleSearchTest() {
 
 		FmExcelUtils Xslutil = new FmExcelUtils();
+
 		String xlspath = "src/test/resources/testData_FM.xlsx";
 		String searchvalue;
 
@@ -91,7 +94,18 @@ public class GoogleSearchTest {
 			test.log(Status.PASS, "Google search for '" + searchText + "' successful.");
 
 		} catch (AssertionError e) {
-			test.log(Status.FAIL, e.getMessage());
+			/*
+			 * String defectId = jira.createJiraDefect(searchText, e.getMessage());
+			 * test.assignCategory("Bugs"); test.log(Status.FAIL, "Defect ID: " + defectId);
+			 * test.log(Status.FAIL, "Defect: " + e.getMessage());
+			 */
+
+			String defectId = jira.createJiraDefect(searchText, e.getMessage());
+			ExtentTest defectNode = test.createNode("Defect Details");
+			defectNode.log(Status.FAIL, "JIRA Defect ID: " + defectId);
+			defectNode.log(Status.FAIL, "Defect description : " + e.getMessage());
+			defectNode.assignCategory("Bugs");
+			test.log(Status.FAIL, "Test failed. Defect created in JIRA - Please find the details in the below tab");
 
 		}
 
@@ -115,7 +129,12 @@ public class GoogleSearchTest {
 			test.log(Status.PASS, "Google search for '" + searchText + "' successful.");
 
 		} catch (AssertionError e) {
-			test.log(Status.FAIL, e.getMessage());
+			String defectId = jira.createJiraDefect(searchText, e.getMessage());
+			ExtentTest defectNode = test.createNode("Defect Details");
+			defectNode.log(Status.FAIL, "JIRA Defect ID: " + defectId);
+			defectNode.log(Status.FAIL, "Defect description: " + e.getMessage());
+			defectNode.assignCategory("Bugs");
+			test.log(Status.FAIL, "Test failed. Defect created in JIRA - Please find the details in the below tab");
 
 		}
 
