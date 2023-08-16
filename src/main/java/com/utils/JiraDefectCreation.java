@@ -73,7 +73,7 @@ public class JiraDefectCreation {
 				JsonObject jsonResponse = jsonParser.parse(apiResponse).getAsJsonObject();
 				if (jsonResponse.has("key")) {
 					defectId = jsonResponse.get("key").getAsString();
-					System.out.println("Jira defect created successfully. Defect ID is : " + defectId);
+					System.out.println("Jira defect created successfully. Defect ID: " + defectId);
 				}
 
 			}
